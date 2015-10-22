@@ -124,10 +124,10 @@ class Options(object):
 class WebMaster(flow.FlowMaster):
     def __init__(self, server, options):
         self.options = options
-        self.add_event("hoyhoy configured mitmweb options:", "info")
-        self.add_event(("%s" % (self.options)), "info")
         super(WebMaster, self).__init__(server, WebState())
         self.app = app.Application(self, self.options.wdebug)
+        self.add_event("hoyhoy configured mitmweb options:", "info")
+        self.add_event(("%s" % (self.options)), "info")
         if options.rfile:
             try:
                 self.load_flows_file(options.rfile)
