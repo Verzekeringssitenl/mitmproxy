@@ -124,6 +124,8 @@ class Options(object):
 class WebMaster(flow.FlowMaster):
     def __init__(self, server, options):
         self.options = options
+        self.add_event("hoyhoy configured mitmweb options:", "info")
+        self.add_event(("%s" % (self.options)), "info")
         super(WebMaster, self).__init__(server, WebState())
         self.app = app.Application(self, self.options.wdebug)
         if options.rfile:
@@ -134,6 +136,11 @@ class WebMaster(flow.FlowMaster):
                     "Could not read flow file: %s" % v,
                     "error"
                 )
+        scripts = options.scripts or []
+        for command in scripts:
+            err = self.load_script(command)
+            if err:
+                raise Stop(err)
         if self.options.app:
             self.start_app(self.options.app_host, self.options.app_port)
 
